@@ -10,7 +10,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            /* Degradado Gris */
             background: linear-gradient(to bottom, #eeeeee, #cccccc); 
             text-align: center;
             font-size: 14px;
@@ -25,9 +24,10 @@
             background-color: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: left;
+            /* RESPONSIVO: Se ajustará en @media queries */
         }
 
-        /* Estilo del Encabezado */
+        /* Encabezado */
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -69,6 +69,7 @@
             font-family: inherit; 
             background-color: transparent;
             border-bottom: 1px dotted #ccc; 
+            min-width: 0; /* Necesario para que flexbox lo comprima */
         }
 
         /* Monto Destacado */
@@ -130,7 +131,69 @@
             transform: translateY(1px);
         }
 
+        /* ============================================== */
+        /* MEDIA QUERY: RESPONSIVO PARA TELÉFONOS (MÁX 600px) */
+        /* ============================================== */
+        @media (max-width: 600px) {
+            
+            body {
+                padding: 10px; /* Reducir padding general */
+            }
+
+            .recibo-container {
+                width: 95%; /* Ocupa casi todo el ancho disponible */
+                padding: 15px; /* Reducir padding interno */
+                margin-top: 10px;
+            }
+
+            /* Campos de Datos: Etiqueta arriba, Input abajo */
+            .campo {
+                flex-direction: column; /* Apila elementos verticalmente */
+                align-items: flex-start; /* Alinea etiquetas a la izquierda */
+                border-bottom: none; /* Elimina la línea de separación que estorba */
+                margin-bottom: 20px;
+            }
+
+            .campo label {
+                width: 100%; /* La etiqueta ocupa todo el ancho */
+                margin-bottom: 5px;
+                font-size: 1em;
+            }
+
+            .dato-input {
+                width: 100%; /* El input ocupa todo el ancho */
+                border-bottom: 1px solid #333; /* Hacemos la línea de input más sólida */
+                padding-bottom: 5px;
+            }
+
+            /* Monto Destacado */
+            .campo[style*="background-color: #f9f9f9"] {
+                padding: 10px 5px !important; /* Ajustar padding */
+            }
+
+            /* Información Adicional: Rut y Teléfono */
+            .info-adicional {
+                flex-direction: column; /* Apila Rut y Teléfono */
+                text-align: left;
+            }
+
+            .info-adicional p {
+                margin-bottom: 8px;
+            }
+            
+            /* Firma */
+            .firma {
+                text-align: center; /* Centrar la firma */
+            }
+
+            .firma-linea {
+                width: 80%; /* Hacer la línea de firma más ancha */
+            }
+        }
+        
+        /* ============================================== */
         /* Estilos para impresión (PDF) */
+        /* ============================================== */
         @media print {
             .btn-descarga {
                 display: none; 
@@ -205,29 +268,22 @@
     <button id="descargarBtn" class="btn-descarga">Descargar Recibo en PDF 📥</button>
 
     <script>
-        // 1. Función para limpiar los campos
+        // Función para limpiar los campos
         function limpiarCampos() {
-            // Se obtienen todos los elementos input del recibo por su clase
             const inputs = document.querySelectorAll('.recibo-container .dato-input');
-            
             inputs.forEach(input => {
-                // El campo de fecha requiere un manejo especial, los de texto simplemente se vacían.
                 input.value = ''; 
             });
             
-            // Opcional: enfocar el primer campo para empezar a escribir de nuevo
             const primerInput = document.getElementById('inputDe');
             if (primerInput) {
                 primerInput.focus();
             }
         }
 
-        // 2. Función de impresión modificada
+        // Función de impresión modificada
         document.getElementById('descargarBtn').addEventListener('click', function() {
-            // Llama inmediatamente a la función de impresión
             window.print();
-            
-            // Llama a limpiarCampos() después de un breve retraso (1500ms)
             setTimeout(limpiarCampos, 1500); 
         });
     </script>
