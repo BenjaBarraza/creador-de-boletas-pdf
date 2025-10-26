@@ -24,7 +24,6 @@
             background-color: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: left;
-            /* RESPONSIVO: Se ajustará en @media queries */
         }
 
         /* Encabezado */
@@ -69,7 +68,7 @@
             font-family: inherit; 
             background-color: transparent;
             border-bottom: 1px dotted #ccc; 
-            min-width: 0; /* Necesario para que flexbox lo comprima */
+            min-width: 0; 
         }
 
         /* Monto Destacado */
@@ -137,43 +136,43 @@
         @media (max-width: 600px) {
             
             body {
-                padding: 10px; /* Reducir padding general */
+                padding: 10px;
             }
 
             .recibo-container {
-                width: 95%; /* Ocupa casi todo el ancho disponible */
-                padding: 15px; /* Reducir padding interno */
+                width: 95%;
+                padding: 15px;
                 margin-top: 10px;
             }
 
             /* Campos de Datos: Etiqueta arriba, Input abajo */
             .campo {
-                flex-direction: column; /* Apila elementos verticalmente */
-                align-items: flex-start; /* Alinea etiquetas a la izquierda */
-                border-bottom: none; /* Elimina la línea de separación que estorba */
+                flex-direction: column;
+                align-items: flex-start;
+                border-bottom: none;
                 margin-bottom: 20px;
             }
 
             .campo label {
-                width: 100%; /* La etiqueta ocupa todo el ancho */
+                width: 100%;
                 margin-bottom: 5px;
                 font-size: 1em;
             }
 
             .dato-input {
-                width: 100%; /* El input ocupa todo el ancho */
-                border-bottom: 1px solid #333; /* Hacemos la línea de input más sólida */
+                width: 100%;
+                border-bottom: 1px solid #333;
                 padding-bottom: 5px;
             }
 
             /* Monto Destacado */
             .campo[style*="background-color: #f9f9f9"] {
-                padding: 10px 5px !important; /* Ajustar padding */
+                padding: 10px 5px !important;
             }
 
             /* Información Adicional: Rut y Teléfono */
             .info-adicional {
-                flex-direction: column; /* Apila Rut y Teléfono */
+                flex-direction: column;
                 text-align: left;
             }
 
@@ -183,11 +182,11 @@
             
             /* Firma */
             .firma {
-                text-align: center; /* Centrar la firma */
+                text-align: center;
             }
 
             .firma-linea {
-                width: 80%; /* Hacer la línea de firma más ancha */
+                width: 80%;
             }
         }
         
@@ -231,17 +230,17 @@
                 <label>DE:</label>
                 <input type="text" class="dato-input" id="inputDe" placeholder="Nombre o Razón Social de quien entrega" />
             </div>
-
+            
             <div class="campo">
                 <label>Para:</label>
-                <input type="text" class="dato-input" id="inputDe" placeholder="Nombre o Razón Social de quien recibe" />
+                <input type="text" class="dato-input" id="inputPara" placeholder="Nombre o Razón Social de quien recibe" />
             </div>
 
             <div class="campo">
                 <label>Fecha de Emisión:</label>
                 <input type="date" class="dato-input" id="inputFecha" />
             </div>
-
+            
             <div class="campo">
                 <label>Por Concepto de:</label>
                 <input type="text" class="dato-input" id="inputConcepto" placeholder="Descripción clara del pago o servicio" />
@@ -259,15 +258,21 @@
         </div>
 
         <div class="info-adicional">
-            <p><strong>Rut:</strong> <span style="font-family: monospace;">12670283-3</span></p>
-            <p><strong>Teléfono de Contacto:</strong> <span style="font-family: monospace;">+56984215617</span></p>
+            <p><strong>Rut:</strong> <span style="font-family: monospace;">12690283-3</span></p>
+            <p><strong>Teléfono de Contacto:</strong> <span style="font-family: monospace;">+56 9 8421 5617</span></p>
         </div>
+
+        <div class="firma">
+            <span class="firma-linea"></span>
+            <p style="margin: 0; font-size: 0.9em; color: #333;">Firma / Recibido Conforme</p>
+        </div>
+        
     </div>
     
     <button id="descargarBtn" class="btn-descarga">Descargar Recibo en PDF 📥</button>
 
     <script>
-        // Función para limpiar los campos
+        // 1. Función para limpiar los campos
         function limpiarCampos() {
             const inputs = document.querySelectorAll('.recibo-container .dato-input');
             inputs.forEach(input => {
@@ -280,10 +285,14 @@
             }
         }
 
-        // Función de impresión modificada
+        // 2. Función de impresión modificada
         document.getElementById('descargarBtn').addEventListener('click', function() {
+            // Llama inmediatamente a la función de impresión
             window.print();
-            setTimeout(limpiarCampos, 1500); 
+            
+            // CAMBIO CLAVE: Aumentar el tiempo de espera a 4000ms (4 segundos)
+            // Esto da más tiempo al sistema operativo móvil para generar la captura del PDF con los datos.
+            setTimeout(limpiarCampos, 4000); 
         });
     </script>
 
