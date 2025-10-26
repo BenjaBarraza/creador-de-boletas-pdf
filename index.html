@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo</title> <style>
-        /* Estilos Generales y Reseteo */
+    <title>Recibo</title>
+    <style>
+        /* Estilos Generales y Reseteo (Mantenidos) */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            /* Degradado Gris */
             background: linear-gradient(to bottom, #eeeeee, #cccccc); 
             text-align: center;
             font-size: 14px;
@@ -26,7 +26,6 @@
             text-align: left;
         }
 
-        /* Estilo del Encabezado */
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -42,7 +41,6 @@
             font-weight: 700;
         }
 
-        /* Estilo de los Campos de Datos */
         .campo {
             display: flex;
             align-items: center;
@@ -58,7 +56,6 @@
             color: #555;
         }
 
-        /* Área de entrada de texto profesional */
         .dato-input {
             border: none;
             flex-grow: 1; 
@@ -70,7 +67,6 @@
             border-bottom: 1px dotted #ccc; 
         }
 
-        /* Monto Destacado */
         .campo[style*="background-color: #f9f9f9"] {
              background-color: #f0f0f0 !important;
              border-left: 5px solid #1e3a8a;
@@ -91,7 +87,6 @@
             color: #333;
         }
 
-        /* Firma */
         .firma {
             margin-top: 40px;
             text-align: right; 
@@ -105,7 +100,6 @@
             border-top: 1px solid #333;
         }
 
-        /* Estilo del botón */
         .btn-descarga {
             width: 220px; 
             margin: 10px auto 20px auto;
@@ -165,27 +159,27 @@
         <div class="datos-principales">
             <div class="campo">
                 <label>DE:</label>
-                <input type="text" class="dato-input" value="benjamin barraza" placeholder="Nombre o Razón Social de quien entrega" />
+                <input type="text" class="dato-input" id="inputDe" value="benjamin barraza" placeholder="Nombre o Razón Social de quien entrega" />
             </div>
 
             <div class="campo">
                 <label>Fecha de Emisión:</label>
-                <input type="date" class="dato-input" value="2025-10-25" />
+                <input type="date" class="dato-input" id="inputFecha" value="2025-10-25" />
             </div>
 
             <div class="campo">
                 <label>Por Concepto de:</label>
-                <input type="text" class="dato-input" value="pago pagina web." placeholder="Descripción clara del pago o servicio" />
+                <input type="text" class="dato-input" id="inputConcepto" value="pago pagina web." placeholder="Descripción clara del pago o servicio" />
             </div>
             
             <div class="campo" style="background-color: #f9f9f9; padding: 10px 0;">
                 <label style="color: #1e3a8a; font-size: 1.1em;">MONTO (Cifra):</label>
-                <input type="text" class="dato-input" value="10.000" placeholder="$ 0.000,00" style="border-bottom: 2px solid #1e3a8a; font-weight: bold; color: #1e3a8a;" />
+                <input type="text" class="dato-input" id="inputMontoCifra" value="10.000" placeholder="$ 0.000,00" style="border-bottom: 2px solid #1e3a8a; font-weight: bold; color: #1e3a8a;" />
             </div>
             
             <div class="campo">
                 <label>Monto (Letras):</label>
-                <input type="text" class="dato-input" value="diez mil pesos" placeholder="Ej: Cien mil pesos chilenos" />
+                <input type="text" class="dato-input" id="inputMontoLetras" value="diez mil pesos" placeholder="Ej: Cien mil pesos chilenos" />
             </div>
         </div>
 
@@ -204,9 +198,32 @@
     <button id="descargarBtn" class="btn-descarga">Descargar Recibo en PDF 📥</button>
 
     <script>
-        // Función JavaScript para llamar al diálogo de impresión
+        // 1. Función para limpiar los campos
+        function limpiarCampos() {
+            // Se obtienen todos los elementos input del recibo por su clase
+            const inputs = document.querySelectorAll('.recibo-container .dato-input');
+            
+            inputs.forEach(input => {
+                // Se verifica si el campo es de tipo 'date' para manejarlo de forma diferente
+                if (input.type === 'date') {
+                    input.value = ''; // Vacía el campo de fecha
+                } else {
+                    input.value = ''; // Vacía los campos de texto
+                }
+            });
+            
+            // Opcional: enfocar el primer campo para empezar a escribir de nuevo
+            document.getElementById('inputDe').focus();
+        }
+
+        // 2. Función de impresión modificada
         document.getElementById('descargarBtn').addEventListener('click', function() {
+            // Llama inmediatamente a la función de impresión
             window.print();
+            
+            // Llama a limpiarCampos() después de un breve retraso (1500ms)
+            // Esto es necesario para dar tiempo al navegador a iniciar el diálogo de impresión
+            setTimeout(limpiarCampos, 1500); 
         });
     </script>
 
